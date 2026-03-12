@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)file:///Users/mattbowen/Downloads/adventure-kids_5.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Big Adventure!</title>
+<link href="./My Big Adventure! - kids 5_files/css2" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; font-family: 'Nunito', sans-serif; font-size: 1.25rem; transition: background 1s ease; }
+body.theme-forest { background: linear-gradient(180deg, #a8e6a3 0%, #56c45a 40%, #2d8a30 100%); color: #1a4a1a; }
+body.theme-space  { background: linear-gradient(180deg, #0a0a2e 0%, #1a1a5e 40%, #0d0d3a 100%); color: #e0e8ff; }
+body.theme-dino   { background: linear-gradient(180deg, #ffe066 0%, #ffb347 40%, #e07b39 100%); color: #3a1a00; }
+body.theme-cars   { background: linear-gradient(180deg, #87ceeb 0%, #4a9fd4 40%, #2176ae 100%); color: #0a1a2a; }
+body.theme-select { background: linear-gradient(180deg, #fff9c4 0%, #ffe082 60%, #ffca28 100%); color: #3a2a00; }
+.doodles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.doodle { position: absolute; font-size: 1.8rem; opacity: 0; animation: float-doodle linear infinite; }
+@keyframes float-doodle { 0% { opacity:0; transform:translateY(105vh) rotate(0deg); } 10% { opacity:0.7; } 90% { opacity:0.4; } 100% { opacity:0; transform:translateY(-10vh) rotate(360deg); } }
+header { position: relative; z-index: 1; text-align: center; padding: 2rem 1.5rem 1rem; width: 100%; }
+.main-title { font-family: 'Fredoka One', cursive; font-size: clamp(2rem, 8vw, 4rem); line-height: 1.1; }
+body.theme-forest .main-title { color: #fff; text-shadow: 3px 3px 0 #2d8a30; }
+body.theme-space .main-title  { color: #ffe066; text-shadow: 3px 3px 0 #000066; }
+body.theme-dino .main-title   { color: #fff; text-shadow: 3px 3px 0 #8b4513; }
+body.theme-cars .main-title   { color: #fff; text-shadow: 3px 3px 0 #0a3a6a; }
+body.theme-select .main-title { color: #e65100; text-shadow: 3px 3px 0 #bf360c44; }
+.world-emoji { font-size: clamp(2.5rem, 8vw, 4rem); display: block; margin-bottom: 0.3rem; animation: bounce-icon 2s ease-in-out infinite; }
+@keyframes bounce-icon { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.subtitle-tag { display: inline-block; font-size: 0.9rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 1rem; border-radius: 20px; margin-top: 0.5rem; }
+body.theme-forest .subtitle-tag { background: #2d8a30; color: #fff; }
+body.theme-space .subtitle-tag  { background: #ffe066; color: #000066; }
+body.theme-dino .subtitle-tag   { background: #8b4513; color: #fff; }
+body.theme-cars .subtitle-tag   { background: #0a3a6a; color: #fff; }
+body.theme-select .subtitle-tag { background: #e65100; color: #fff; }
+.stage { position: relative; z-index: 1; width: min(720px, 92vw); border-radius: 24px; padding: 2rem; margin-bottom: 2rem; }
+body.theme-forest .stage { background: rgba(255,255,255,0.88); box-shadow: 0 8px 32px rgba(45,138,48,0.25); border: 3px solid #56c45a; }
+body.theme-space .stage  { background: rgba(10,10,60,0.85); box-shadow: 0 8px 40px rgba(100,100,255,0.3); border: 3px solid #4444cc; }
+body.theme-dino .stage   { background: rgba(255,255,240,0.92); box-shadow: 0 8px 32px rgba(139,69,19,0.2); border: 3px solid #ffb347; }
+body.theme-cars .stage   { background: rgba(255,255,255,0.9); box-shadow: 0 8px 32px rgba(10,58,106,0.2); border: 3px solid #87ceeb; }
+body.theme-select .stage { background: rgba(255,255,255,0.92); box-shadow: 0 8px 32px rgba(230,81,0,0.15); border: 3px solid #ffca28; }
+#story-text { line-height: 1.8; min-height: 100px; font-size: clamp(1.1rem, 3vw, 1.4rem); font-weight: 700; }
+body.theme-forest #story-text { color: #1a4a1a; }
+body.theme-space #story-text  { color: #d0d8ff; }
+body.theme-dino #story-text   { color: #3a1a00; }
+body.theme-cars #story-text   { color: #0a1a3a; }
+body.theme-select #story-text { color: #3a2a00; }
+.story-segment { animation: pop-in 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+@keyframes pop-in { from { opacity:0; transform:scale(0.94) translateY(8px); } to { opacity:1; transform:scale(1) translateY(0); } }
+.speaking-bar { display: flex; align-items: center; gap: 0.8rem; margin-top: 1.2rem; opacity: 0; transition: opacity 0.4s; }
+.speaking-bar.active { opacity: 1; }
+.bar-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+body.theme-forest .bar-label { color: #2d8a30; }
+body.theme-space .bar-label  { color: #ffe066; }
+body.theme-dino .bar-label   { color: #8b4513; }
+body.theme-cars .bar-label   { color: #2176ae; }
+.wave { display: flex; gap: 4px; align-items: flex-end; height: 24px; }
+.wave span { display: block; width: 5px; border-radius: 3px; animation: wave-bounce 0.7s ease-in-out infinite; }
+body.theme-forest .wave span { background: #2d8a30; }
+body.theme-space .wave span  { background: #ffe066; }
+body.theme-dino .wave span   { background: #e07b39; }
+body.theme-cars .wave span   { background: #2176ae; }
+.wave span:nth-child(1){animation-delay:0s} .wave span:nth-child(2){animation-delay:0.1s} .wave span:nth-child(3){animation-delay:0.2s} .wave span:nth-child(4){animation-delay:0.3s} .wave span:nth-child(5){animation-delay:0.2s}
+@keyframes wave-bounce { 0%,100%{height:5px} 50%{height:22px} }
+.controls { display: flex; gap: 0.75rem; margin-top: 1.5rem; justify-content: center; flex-wrap: wrap; }
+.btn { font-family: 'Fredoka One', cursive; font-size: 1rem; letter-spacing: 0.05em; padding: 0.65rem 1.5rem; cursor: pointer; border-radius: 50px; transition: all 0.2s; border: none; box-shadow: 0 4px 0 rgba(0,0,0,0.2); }
+.btn:hover  { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0,0,0,0.2); }
+.btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+body.theme-forest .btn         { background: #fff; color: #2d8a30; border: 2px solid #2d8a30; }
+body.theme-forest .btn.primary { background: #2d8a30; color: #fff; border: 2px solid #1a5a1a; }
+body.theme-space .btn          { background: #1a1a5e; color: #ffe066; border: 2px solid #4444cc; }
+body.theme-space .btn.primary  { background: #ffe066; color: #000066; border: 2px solid #ccaa00; }
+body.theme-dino .btn           { background: #fff8e8; color: #8b4513; border: 2px solid #e07b39; }
+body.theme-dino .btn.primary   { background: #e07b39; color: #fff; border: 2px solid #8b4513; }
+body.theme-cars .btn           { background: #fff; color: #2176ae; border: 2px solid #2176ae; }
+body.theme-cars .btn.primary   { background: #2176ae; color: #fff; border: 2px solid #0a3a6a; }
+body.theme-select .btn         { background: #fff; color: #e65100; border: 2px solid #ffca28; }
+body.theme-select .btn.primary { background: #e65100; color: #fff; border: 2px solid #bf360c; }
+.progress-track { display: flex; justify-content: center; gap: 0.6rem; margin-top: 1.2rem; }
+.star-pip { font-size: 1.4rem; opacity: 0.3; transition: opacity 0.4s, transform 0.4s; }
+.star-pip.visited { opacity: 0.6; }
+.star-pip.current { opacity: 1; transform: scale(1.3); animation: star-pulse 1s ease-in-out infinite; }
+@keyframes star-pulse { 0%,100%{transform:scale(1.3)} 50%{transform:scale(1.5)} }
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.modal-backdrop.open { opacity: 1; pointer-events: all; }
+.modal { border-radius: 24px; width: min(500px, 92vw); padding: 2rem; transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+body.theme-forest .modal { background: #f0fff0; border: 4px solid #56c45a; box-shadow: 0 10px 40px rgba(45,138,48,0.3); }
+body.theme-space .modal  { background: #0d0d40; border: 4px solid #4444cc; box-shadow: 0 10px 40px rgba(100,100,255,0.4); }
+body.theme-dino .modal   { background: #fff8e8; border: 4px solid #ffb347; box-shadow: 0 10px 40px rgba(224,123,57,0.3); }
+body.theme-cars .modal   { background: #f0f8ff; border: 4px solid #87ceeb; box-shadow: 0 10px 40px rgba(33,118,174,0.3); }
+.modal-backdrop.open .modal { transform: scale(1); }
+.modal-icon { text-align: center; font-size: 3rem; margin-bottom: 0.5rem; animation: bounce-icon 1.5s ease-in-out infinite; }
+.modal-title { font-family: 'Fredoka One', cursive; font-size: 1.4rem; text-align: center; margin-bottom: 0.3rem; }
+body.theme-forest .modal-title { color: #2d8a30; }
+body.theme-space .modal-title  { color: #ffe066; }
+body.theme-dino .modal-title   { color: #8b4513; }
+body.theme-cars .modal-title   { color: #2176ae; }
+.modal-prompt { text-align: center; font-weight: 800; font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.4; }
+body.theme-forest .modal-prompt { color: #1a4a1a; }
+body.theme-space .modal-prompt  { color: #c0ccff; }
+body.theme-dino .modal-prompt   { color: #3a1a00; }
+body.theme-cars .modal-prompt   { color: #0a1a3a; }
+.choices { display: flex; flex-direction: column; gap: 0.75rem; }
+.choice-btn { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.05rem; padding: 1rem 1.2rem; text-align: left; cursor: pointer; border-radius: 16px; transition: all 0.2s; line-height: 1.4; border: 3px solid transparent; box-shadow: 0 4px 0 rgba(0,0,0,0.15); }
+.choice-btn:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 7px 0 rgba(0,0,0,0.15); }
+body.theme-forest .choice-btn { background: #e8f5e9; border-color: #56c45a; color: #1a4a1a; }
+body.theme-forest .choice-btn:hover { background: #c8e6c9; }
+body.theme-space .choice-btn  { background: #1a1a6e; border-color: #6666dd; color: #e0e8ff; }
+body.theme-space .choice-btn:hover  { background: #2a2a8e; }
+body.theme-dino .choice-btn   { background: #fff3e0; border-color: #ffb347; color: #3a1a00; }
+body.theme-dino .choice-btn:hover   { background: #ffe0b2; }
+body.theme-cars .choice-btn   { background: #e3f2fd; border-color: #64b5f6; color: #0a1a3a; }
+body.theme-cars .choice-btn:hover   { background: #bbdefb; }
+.go-back-btn { font-family: 'Fredoka One', cursive; font-size: 0.85rem; margin-top: 0.8rem; padding: 0.5rem 1.2rem; border-radius: 50px; cursor: pointer; border: 2px dashed; background: transparent; transition: all 0.2s; display: block; margin-left: auto; margin-right: auto; }
+body.theme-forest .go-back-btn { color: #56c45a; border-color: #56c45a; }
+body.theme-space .go-back-btn  { color: #aaaaee; border-color: #4444cc; }
+body.theme-dino .go-back-btn   { color: #e07b39; border-color: #ffb347; }
+body.theme-cars .go-back-btn   { color: #64b5f6; border-color: #87ceeb; }
+.go-back-btn:hover { opacity: 0.8; transform: scale(1.05); }
+.go-back-btn:disabled { display: none; }
+#mic-btn.listening {
+  animation: mic-pulse 0.8s ease-in-out infinite !important;
+  filter: drop-shadow(0 0 14px rgba(255,80,80,0.8)) !important;
+}
+@keyframes mic-pulse {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.25); }
+}
+.oops-screen { display: none; text-align: center; padding: 1rem 0; animation: pop-in 0.6s ease; }
+.oops-screen.show { display: block; }
+.oops-emoji { font-size: 4rem; animation: wobble 1s ease-in-out infinite; margin-bottom: 0.5rem; display: block; }
+@keyframes wobble { 0%,100%{transform:rotate(-5deg)} 50%{transform:rotate(5deg)} }
+.oops-title { font-family: 'Fredoka One', cursive; font-size: 2rem; margin-bottom: 0.5rem; }
+body.theme-forest .oops-title { color: #2d8a30; }
+body.theme-space .oops-title  { color: #ffe066; }
+body.theme-dino .oops-title   { color: #e07b39; }
+body.theme-cars .oops-title   { color: #2176ae; }
+.oops-desc { font-weight: 700; font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.6; opacity: 0.8; }
+.win-screen { display: none; text-align: center; padding: 1rem 0; animation: pop-in 0.6s ease; }
+.win-screen.show { display: block; }
+.win-emoji { font-size: 4rem; display: block; margin-bottom: 0.5rem; animation: spin-win 2s ease-in-out infinite; }
+@keyframes spin-win { 0%,100%{transform:scale(1) rotate(-5deg)} 50%{transform:scale(1.15) rotate(5deg)} }
+.win-title { font-family: 'Fredoka One', cursive; font-size: 2rem; margin-bottom: 0.5rem; }
+body.theme-forest .win-title { color: #2d8a30; }
+body.theme-space .win-title  { color: #ffe066; }
+body.theme-dino .win-title   { color: #e07b39; }
+body.theme-cars .win-title   { color: #2176ae; }
+.win-desc { font-weight: 700; font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.6; }
+.stars-display { font-size: 2.5rem; letter-spacing: 0.2rem; margin-bottom: 1.5rem; }
+.world-select { display: none; text-align: center; }
+.world-select.show { display: block; }
+.world-select-title { font-family: 'Fredoka One', cursive; font-size: 2rem; margin-bottom: 0.5rem; color: #e65100; }
+.world-select-sub { font-weight: 700; font-size: 1rem; color: #7a5a00; margin-bottom: 1.5rem; }
+.world-cards { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.world-card { width: min(160px, 44vw); border-radius: 20px; padding: 1.5rem 1rem; cursor: pointer; transition: all 0.25s; text-align: center; border: 3px solid transparent; box-shadow: 0 5px 0 rgba(0,0,0,0.15); }
+.world-card:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 10px 0 rgba(0,0,0,0.15); }
+.wc-forest { background: #e8f5e9; border-color: #56c45a; }
+.wc-space  { background: #1a1a5e; border-color: #6666dd; }
+.wc-dino   { background: #fff3e0; border-color: #ffb347; }
+.wc-cars   { background: #e3f2fd; border-color: #64b5f6; }
+.wc-icon { font-size: 2.8rem; display: block; margin-bottom: 0.5rem; }
+.wc-name { font-family: 'Fredoka One', cursive; font-size: 1rem; line-height: 1.2; }
+.wc-forest .wc-name { color: #2d8a30; }
+.wc-space .wc-name  { color: #ffe066; }
+.wc-dino .wc-name   { color: #8b4513; }
+.wc-cars .wc-name   { color: #2176ae; }
+</style>
+</head>
+<body class="theme-space">
+<div class="doodles" id="doodles"><div class="doodle" style="left: 66.5299vw; animation-duration: 14.524s; animation-delay: 2.8604s;">⭐</div><div class="doodle" style="left: 50.872vw; animation-duration: 15.8807s; animation-delay: 10.2766s;">🌙</div><div class="doodle" style="left: 88.274vw; animation-duration: 8.84054s; animation-delay: 7.57335s;">💫</div><div class="doodle" style="left: 85.4699vw; animation-duration: 17.5489s; animation-delay: 4.27053s;">🪐</div><div class="doodle" style="left: 86.5487vw; animation-duration: 13.0562s; animation-delay: 4.51802s;">✨</div><div class="doodle" style="left: 43.4606vw; animation-duration: 11.2813s; animation-delay: 7.93122s;">🌟</div><div class="doodle" style="left: 78.1115vw; animation-duration: 11.908s; animation-delay: 9.07455s;">☄️</div><div class="doodle" style="left: 90.3754vw; animation-duration: 13.578s; animation-delay: 2.4001s;">👾</div></div>
+<header>
+  <span class="world-emoji" id="world-emoji">🚀</span>
+  <div class="main-title" id="main-title">Outer Space</div>
+  <div class="subtitle-tag" id="subtitle-tag">A Galactic Adventure</div>
+</header>
+<div class="stage">
+  <div class="world-select" id="world-select" style="display: none;">
+    <div class="world-select-title">Pick Your World! 🌍</div>
+    <div class="world-select-sub">Tap a world — or say its name! 🎤</div>
+    <div class="world-cards">
+      <div class="world-card wc-forest" onclick="loadWorld(&#39;forest&#39;)"><span class="wc-icon">🌲</span><div class="wc-name">Magic Forest</div></div>
+      <div class="world-card wc-space" onclick="loadWorld(&#39;space&#39;)"><span class="wc-icon">🚀</span><div class="wc-name">Outer Space</div></div>
+      <div class="world-card wc-dino" onclick="loadWorld(&#39;dino&#39;)"><span class="wc-icon">🦕</span><div class="wc-name">Dino Land</div></div>
+      <div class="world-card wc-cars" onclick="loadWorld(&#39;cars&#39;)"><span class="wc-icon">🏎️</span><div class="wc-name">Racecar Town</div></div>
+    </div>
+  </div>
+  <div id="story-text" style="display: block;"><div class="story-segment" id="current-segment" style="">WHOOSH! Your rocket blasts off into space! You can see a million stars! Suddenly your radio crackles. Hello hello! says a friendly alien voice. I am Zorp! I am lost and I need help getting home to Planet Bloop! Will you help me?</div></div>
+  <div class="speaking-bar" id="speaking-bar" style="display: none;">
+    <div class="bar-label">Listening...</div>
+    <div class="wave"><span></span><span></span><span></span><span></span><span></span></div>
+  </div>
+  <div class="progress-track" id="progress-track" style="display: none;"><div class="star-pip current">⭐</div><div class="star-pip">⭐</div><div class="star-pip">⭐</div></div>
+  <div class="controls" id="controls" style="display: flex;">
+    <button class="btn primary" id="start-btn" onclick="beginAdventure()" disabled="" style="display: none;">🎉 Let us Go!</button>
+    <button class="btn" id="replay-btn" onclick="replaySegment()" style="display: none;">🔊 Again!</button>
+    <button class="btn" id="pause-btn" onclick="togglePause()" disabled="" style="display: none;">⏸ Pause</button>
+    <button class="btn" id="skip-btn" onclick="skipToChoice()" disabled="" style="display: none;">⏭ Skip</button>
+  </div>
+  <div class="oops-screen" id="oops-screen">
+    <span class="oops-emoji" id="oops-emoji">😅</span>
+    <div class="oops-title" id="oops-title">Oops!</div>
+    <div class="oops-desc" id="oops-desc"></div>
+    <button class="btn primary" onclick="tryAgain()">🔄 Try Again!</button>
+    <button class="btn" style="margin-top:0.5rem" onclick="goToWorldSelect()">🌍 Pick a New World</button>
+  </div>
+  <div class="win-screen" id="win-screen">
+    <span class="win-emoji" id="win-emoji">🏁</span>
+    <div class="win-title" id="win-title">You found the lucky flag!</div>
+    <div class="win-desc" id="win-desc">Zippy wins the race AND you are the star of the day! VROOM!</div>
+    <div class="stars-display">⭐⭐⭐</div>
+    <button class="btn primary" onclick="tryAgain()">🔄 Play Again!</button>
+    <button class="btn" style="margin-top:0.5rem" onclick="goToWorldSelect()">🌍 Try Another World</button>
+  </div>
+</div>
+<div class="modal-backdrop open" id="modal">
+  <div class="modal">
+    <div class="modal-icon" id="modal-icon">👾</div>
+    <div class="modal-title">What do you do?</div>
+    <div class="modal-prompt" id="modal-prompt">Which way do you fly?</div>
+    <div class="choices" id="choices-container"><button class="choice-btn" style="animation-delay: 0s;">🌙 Fly past the big moon!</button><button class="choice-btn" style="animation-delay: 0.1s;">🪐 Zoom toward the ringed planet!</button><button class="choice-btn" style="animation-delay: 0.2s;">⭐ Follow the brightest star!</button></div>
+    <!-- Voice input area -->
+    <div id="voice-area" style="text-align: center; margin-top: 1.2rem; display: block;">
+      <button id="mic-btn" onclick="startListening()" style="
+        font-size:2.5rem; background:none; border:none; cursor:pointer;
+        animation:bounce-icon 2s ease-in-out infinite;
+        filter:drop-shadow(0 0 8px rgba(0,0,0,0.2));
+        transition:transform 0.2s;
+      " class="listening">🎙️</button>
+      <div id="mic-status" style="font-family:&#39;Fredoka One&#39;,cursive;font-size:0.95rem;margin-top:0.3rem;opacity:0.7;">Say One, Two, or Three!</div>
+    </div>
+    <button class="go-back-btn" id="go-back-btn" onclick="goBack()" disabled="">Oops, go back!</button>
+  </div>
+</div>
+<script>
+const worlds = {
+  forest: {
+    meta: { emoji:'🌲', name:'Magic Forest', tag:'An Enchanted Adventure', steps:3, modalIcon:'🧚', doodles:['🌸','🍄','🦋','🌿','✨','🌼','🍀','🐛'] },
+    start: { text:"You walk into a magical forest! The trees are tall and sparkly. A tiny fairy sits on a mushroom. She says: Hello friend! I need help finding my lost wand! Will you help me? You say YES! Which way do you go?", prompt:"Which way do you go?", choices:[{text:"🌊 Follow the shiny stream!",next:"stream"},{text:"🌸 Walk through the flower field!",next:"flowers"},{text:"🏠 Knock on the little door in the big tree!",next:"tree_door"}] },
+    stream: { text:"You follow the shiny stream. The water sparkles! A friendly frog jumps out. Ribbit ribbit! I saw something magic fall from the sky! It landed near the waterfall or by the big rock. Where do you look?", prompt:"Where do you look?", choices:[{text:"🌊 By the waterfall!",next:"waterfall_win"},{text:"🪨 By the big rock!",next:"rock_oops"}] },
+    flowers: { text:"You walk through the flower field. Butterflies everywhere! A bunny hops up. He is holding a tiny glowing stick! Is that the wand? The bunny runs away! Do you chase him or call out nicely?", prompt:"What do you do?", choices:[{text:"🐰 Call out nicely: Please bunny stop!",next:"bunny_win"},{text:"🏃 Run and chase him!",next:"bunny_oops"}] },
+    tree_door: { text:"You knock on the little door in the big tree. A tiny gnome opens it! Hello hello! I found something sparkly this morning! Come inside! His house is cozy and warm. The sparkly thing is on his table!", prompt:"What do you say?", choices:[{text:"🙏 Please sir that belongs to my fairy friend!",next:"gnome_win"},{text:"😶 You grab it without asking.",next:"gnome_oops"}] },
+    waterfall_win: { text:"You look behind the waterfall and there it is! The magic wand is glowing pink and gold! You run back to the fairy. She claps her tiny hands. You found it! she cries. The whole forest lights up with sparkles. You did it!", ending:{win:true,emoji:'🧚',title:'You found the wand!',desc:'The fairy is SO happy! You are the best helper in the whole forest!'} },
+    rock_oops: { text:"You look behind the big rock. But all you find is a sleeping hedgehog! Snore snore! The hedgehog yawns at you. Oops! The wand is not here. Maybe try somewhere else!", ending:{win:false,emoji:'🦔',title:'Just a sleepy hedgehog!',desc:'Oops! The wand was not there. Let us try again!'} },
+    bunny_win: { text:"Please bunny stop! you call in your nicest voice. The bunny stops and looks at you with big eyes. He hops back and puts the wand gently in your hand. You said please! says the bunny. You can have it! You give the wand back to the fairy. She does a happy dance!", ending:{win:true,emoji:'🐰',title:'The bunny helped you!',desc:'You used your kind words and it worked! Amazing!'} },
+    bunny_oops: { text:"You run after the bunny but he is VERY fast! He hops and hops and disappears into the bushes. Oh no! You cannot find him. Maybe chasing was not the best idea!", ending:{win:false,emoji:'🌿',title:'The bunny was too fast!',desc:'Oh no! Let us try using kind words next time!'} },
+    gnome_win: { text:"Oh my goodness! says the gnome. Of course! I did not know it was hers! He wraps the wand and hands it to you. You run back to the fairy. She hugs the wand and hugs you too. Thank you thank you thank you!", ending:{win:true,emoji:'🏠',title:'The gnome gave it back!',desc:'You were so polite! The gnome was happy to help. You did it!'} },
+    gnome_oops: { text:"The gnome looks very sad. That was not very nice! he says. You feel bad. You give it back and say sorry. He smiles a little. It is okay. We all make mistakes! Let us try again!", ending:{win:false,emoji:'🧙',title:'Oops we forgot our manners!',desc:'It is always good to ask first! Let us try again!'} }
+  },
+  space: {
+    meta: { emoji:'🚀', name:'Outer Space', tag:'A Galactic Adventure', steps:3, modalIcon:'👾', doodles:['⭐','🌙','💫','🪐','✨','🌟','☄️','👾'] },
+    start: { text:"WHOOSH! Your rocket blasts off into space! You can see a million stars! Suddenly your radio crackles. Hello hello! says a friendly alien voice. I am Zorp! I am lost and I need help getting home to Planet Bloop! Will you help me?", prompt:"Which way do you fly?", choices:[{text:"🌙 Fly past the big moon!",next:"moon"},{text:"🪐 Zoom toward the ringed planet!",next:"rings"},{text:"⭐ Follow the brightest star!",next:"bright_star"}] },
+    moon: { text:"You fly past the big moon! It is so big and bright! Zorp says: Oh! I remember now! Planet Bloop is either near the blue star or behind the asteroid cloud! Where do you look?", prompt:"Where do you look?", choices:[{text:"💙 Fly to the blue star!",next:"blue_star_win"},{text:"🪨 Go through the asteroid cloud!",next:"asteroid_oops"}] },
+    rings: { text:"You zoom toward the ringed planet! The rings are made of sparkly ice! A space whale swims by and bumps your rocket gently. BLOOP it says! Zorp shouts: BLOOP! That is how we say hello on my planet! The whale is from Planet Bloop! Do you follow it?", prompt:"What do you do?", choices:[{text:"🐋 Yes! Follow the space whale!",next:"whale_win"},{text:"🔙 No turn around and go back.",next:"turn_back_oops"}] },
+    bright_star: { text:"You follow the brightest star! As you get closer you see a whole bunch of colorful planets! Zorp says: I can see Planet Bloop from here! It is the green one! OR wait... is it the purple one? Oh dear!", prompt:"Which planet is home?", choices:[{text:"💚 The green planet!",next:"green_win"},{text:"💜 The purple planet!",next:"purple_oops"}] },
+    blue_star_win: { text:"You fly to the blue star and right beside it is a tiny green planet with purple polka dots! Planet Bloop! shouts Zorp. That is it! You land and hundreds of little aliens come running out cheering! They give you a big star trophy. You are a HERO!", ending:{win:true,emoji:'🏆',title:'You found Planet Bloop!',desc:'Zorp is home! All the Bloopians say thank you!'} },
+    asteroid_oops: { text:"Uh oh! The asteroid cloud is very bumpy! BUMP BUMP BUMP! Your rocket gets dizzy. Zorp giggles. Sorry! I do not think my planet is in there! Let us try a different way!", ending:{win:false,emoji:'🪨',title:'Too bumpy in there!',desc:'Oops! Planet Bloop was not in the asteroid cloud. Let us try again!'} },
+    whale_win: { text:"You follow the space whale and it leads you straight to a beautiful green planet with rings of glitter! Planet Bloop! The whale does a big flip. All the Bloopians cheer! Zorp runs to hug his family. You are the best space explorer EVER!", ending:{win:true,emoji:'🐋',title:'The space whale knew the way!',desc:'You followed your new friend and found the planet! Amazing!'} },
+    turn_back_oops: { text:"You turn around and fly back the way you came. But now you are a little bit lost too! Zorp laughs. It is okay! Let us look at the star map together and try again!", ending:{win:false,emoji:'🗺️',title:'Oh no we got turned around!',desc:'That is okay! Even astronauts get lost sometimes. Try again!'} },
+    green_win: { text:"You fly to the green planet! As soon as you get close Zorp starts jumping up and down! YES YES YES! THAT IS IT! You land and the whole planet throws a party just for you! There is alien cake and everything!", ending:{win:true,emoji:'🎂',title:'You picked the right planet!',desc:'Zorp is home! The alien cake tastes like rainbows!'} },
+    purple_oops: { text:"You fly to the purple planet. Very pretty! But when you land, square aliens look at you. This is Planet Squarble! they say. Zorp says: Oops! Wrong planet! That is okay. Back to the rocket!", ending:{win:false,emoji:'🟪',title:'Wrong planet! But still fun!',desc:'The Squarble aliens were very nice though! Let us try again!'} }
+  },
+  dino: {
+    meta: { emoji:'🦕', name:'Dino Land', tag:'A Prehistoric Adventure', steps:3, modalIcon:'🦖', doodles:['🌋','🌿','🦖','🥚','🌴','🦕','🍃','🌺'] },
+    start: { text:"BOOM! You appear in Dino Land! Giant friendly dinosaurs are everywhere! A little dinosaur with big googly eyes runs up to you. Hi! My name is Dex! My egg rolled away and I cannot find it! Will you help me look?", prompt:"Where do you look first?", choices:[{text:"🌋 Near the big volcano!",next:"volcano"},{text:"🌿 In the tall fern jungle!",next:"jungle"},{text:"🏊 By the splashy lake!",next:"lake"}] },
+    volcano: { text:"You walk toward the big volcano. At the bottom you find some dino footprints. Big ones, small ones, and then very round ones! Round marks! Something round rolled through here! Do you follow the marks going left or going right?", prompt:"Which way do you follow?", choices:[{text:"⬅️ Follow the marks going left!",next:"volcano_left_win"},{text:"➡️ Follow the marks going right!",next:"volcano_right_oops"}] },
+    jungle: { text:"You push through the big fern jungle. A Triceratops is munching on ferns. Munch munch! She looks up and nudges her head toward a big pile of leaves. Something is under there!", prompt:"What do you do?", choices:[{text:"🍃 Look under the leaves!",next:"leaves_win"},{text:"🏃 Run away the dino is too big!",next:"run_oops"}] },
+    lake: { text:"You walk to the splashy lake! A long-necked dinosaur is drinking from it. Slurp slurp! She lifts her loooong neck and points it at something. You see something round and speckled sitting in the mud at the edge of the lake!", prompt:"What do you do?", choices:[{text:"🥚 Run and grab the egg!",next:"grab_win"},{text:"🤔 Stand and think about it.",next:"think_oops"}] },
+    volcano_left_win: { text:"You follow the round marks going left! They go around a rock, past a bush, and stop right in front of a nest made of sticks and leaves! Sitting in the middle is a spotted egg! DEX! you shout. He comes running and hugs his egg. My baby! he cries happily!", ending:{win:true,emoji:'🥚',title:'You found the egg!',desc:'Dex is SO happy! He does a big happy dino dance just for you!'} },
+    volcano_right_oops: { text:"You follow the marks going right and they lead you to a big pile of dino poop. Ewww! The egg is definitely not in there! Dex wrinkles his nose. Let us try the other way!", ending:{win:false,emoji:'💩',title:'Oops! Just dino poop!',desc:'Ha ha! Very stinky! The egg was not there. Let us try again!'} },
+    leaves_win: { text:"You look under the big pile of leaves! And there it is! A big round spotted egg sitting cozy like it has a blanket! Dex comes running and picks up his egg very gently. Thank you thank you thank you! He lets you touch the egg and it is warm and wiggly!", ending:{win:true,emoji:'🍃',title:'The egg was under the leaves!',desc:'The Triceratops was trying to help all along! You are so brave!'} },
+    run_oops: { text:"You run away from the big dinosaur! But she was only trying to help! She calls after you: Moo moo moo! which means come back! You trip and land in a soft pile of ferns. Dex helps you up. Dinos are friendly here!", ending:{win:false,emoji:'🌿',title:'The dino was friendly!',desc:'Oh no! She just wanted to help. Let us try again and be brave!'} },
+    grab_win: { text:"You run to the egg and pick it up! It is warm and a little muddy. The long-neck dino nods her big head like she is saying good job! You carry the egg carefully back to Dex. His eyes go HUGE. MY EGG! He does a happy stomp dance and the ground shakes!", ending:{win:true,emoji:'🦕',title:'You rescued the egg!',desc:'The long-neck dino smiled! Dex loves you forever!'} },
+    think_oops: { text:"You stand and think for a long time. La la la. Think think think. But while you are thinking the egg slowly rolls toward the water! Oh no! Dex says: Maybe we should be a little bit faster next time!", ending:{win:false,emoji:'🌊',title:'It rolled away again!',desc:'Oh dear! Next time let us be a little quicker! Try again!'} }
+  },
+  cars: {
+    meta: { emoji:'🏎️', name:'Racecar Town', tag:'Vroom Vroom Adventure', steps:3, modalIcon:'🏁', doodles:['🏎️','⭐','🏁','💨','🔧','🌟','⚡','🎉'] },
+    start: { text:"VROOM VROOM! You are in Racecar Town! Every car here can talk! A little red racecar zooms up to you. Hi! My name is Zippy! she says. Today is the BIG RACE and I lost my lucky flag! I cannot race without it! Can you help me find it?", prompt:"Where do you look?", choices:[{text:"🔧 In the big garage!",next:"garage"},{text:"🏁 At the racetrack!",next:"track"},{text:"🍦 At the car wash and ice cream shop!",next:"carwash"}] },
+    garage: { text:"You run to the big garage! A big friendly truck named Chomper is in there. HONK HONK! He has a flag on his antenna. But wait, is that Zippy's flag? It is red with yellow stars. Do you ask Chomper or just look around?", prompt:"What do you do?", choices:[{text:"💬 Ask Chomper nicely!",next:"ask_chomper_win"},{text:"👀 Just look around without asking.",next:"snoop_oops"}] },
+    track: { text:"You zoom to the racetrack! A yellow car skids to a stop. Hey! she says. I saw something red and flaggy fly through the air! It went toward the finish line or over the big jump. Which way do you run?", prompt:"Which way do you run?", choices:[{text:"🏁 Run to the finish line!",next:"finish_win"},{text:"🎢 Run to the big jump!",next:"jump_oops"}] },
+    carwash: { text:"You go to the car wash and ice cream shop! A pink car is getting washed with rainbow bubbles. She honks at you and points her wheel at the ice cream window. The ice cream scoop car is holding something!", prompt:"What do you do?", choices:[{text:"🍦 Go talk to the ice cream car!",next:"icecream_win"},{text:"🚗 Keep looking somewhere else.",next:"keep_looking_oops"}] },
+    ask_chomper_win: { text:"Excuse me Chomper is that flag on your antenna Zippy's lucky flag? Chomper looks up. Oh my goodness! he honks. I did not even notice it got stuck up there! He shakes it off and the red flag with yellow stars flutters down. You catch it and run back to Zippy! She HONKS SO LOUD with happiness!", ending:{win:true,emoji:'🚛',title:'Chomper had it all along!',desc:'Zippy zooms three happy circles around you. THANK YOU THANK YOU THANK YOU!'} },
+    snoop_oops: { text:"You look around the garage without asking and knock over a tower of tires. CRASH! Tires go everywhere! Chomper honks sadly. Those were sorted by size! It is always better to ask first!", ending:{win:false,emoji:'🔧',title:'Oops! Tires everywhere!',desc:'It is always better to ask! Let us try again!'} },
+    finish_win: { text:"You run to the finish line and there it is! Zippy's lucky flag is caught on the big checkered banner flapping in the wind! You grab it carefully. The crowd of cars all HONK and BEEP for you! You are the hero of Racecar Town! Zippy does a happy donut in the road!", ending:{win:true,emoji:'🏁',title:'You found the lucky flag!',desc:'Zippy wins the race AND you are the star of the day! VROOM!'} },
+    jump_oops: { text:"You run to the big jump! A car zooms over it. WHOOOOSH! The wind blows your hair. But there is no flag here. A little car says: I saw it go the other way! Nice try though!", ending:{win:false,emoji:'🎢',title:'No flag at the jump!',desc:'So close! Let us try looking somewhere else!'} },
+    icecream_win: { text:"You walk to the ice cream window. The little ice cream car is holding a red flag with yellow stars! He found it on the ground and saved it! Here you go! he beeps happily. He hands it to you AND gives you a free scoop of ice cream! VROOM!", ending:{win:true,emoji:'🍦',title:'The ice cream car saved it!',desc:'Zippy races to first place AND you got ice cream! Best day ever!'} },
+    keep_looking_oops: { text:"You keep looking around but cannot find the flag near the car wash. A soapy car says: I think I saw someone holding it at the window! You turn around. Oh! You almost missed it! Go back and check!", ending:{win:false,emoji:'🫧',title:'So close! Look again!',desc:'You were right there! Let us go back and try again!'} }
+  }
+};
+
+let activeWorld=null,currentId=null,currentNode=null;
+let synth=window.speechSynthesis,utterance=null;
+const SpeechRec=window.SpeechRecognition||window.webkitSpeechRecognition;
+let currentChoices=[];
+let voiceMode='idle';
+let micStream=null,recognition=null,micReady=false;
+let visitedNodes=[],isNarrating=false,isPaused=false,pendingCb=null;
+
+function spawnDoodles(items){
+  const c=document.getElementById('doodles');
+  c.innerHTML='';
+  items.forEach(emoji=>{
+    const d=document.createElement('div');
+    d.className='doodle';
+    d.textContent=emoji;
+    d.style.left=(5+Math.random()*90)+'vw';
+    d.style.animationDuration=(8+Math.random()*10)+'s';
+    d.style.animationDelay=(Math.random()*12)+'s';
+    c.appendChild(d);
+  });
+}
+spawnDoodles(['🌟','🎉','⭐','🌈','✨','🎊','💫','🌸']);
+warmMic();
+setVoiceMode('worldSelect');
+
+function loadWorld(worldId){
+  activeWorld=worlds[worldId]; currentId=worldId;
+  const m=activeWorld.meta;
+  document.body.className='theme-'+worldId;
+  document.getElementById('world-emoji').textContent=m.emoji;
+  document.getElementById('main-title').textContent=m.name;
+  document.getElementById('subtitle-tag').textContent=m.tag;
+  document.getElementById('modal-icon').textContent=m.modalIcon;
+  spawnDoodles(m.doodles);
+  document.getElementById('world-select').classList.remove('show');
+  document.getElementById('world-select').style.display='none';
+  document.getElementById('story-text').style.display='block';
+  document.getElementById('controls').style.display='flex';
+  visitedNodes=[]; currentNode=null; pendingCb=null; isPaused=false;
+  document.getElementById('start-btn').style.display='inline-block';
+  document.getElementById('start-btn').disabled=false;
+  document.getElementById('replay-btn').disabled=true;
+  document.getElementById('pause-btn').disabled=true;
+  document.getElementById('skip-btn').disabled=true;
+  document.getElementById('pause-btn').textContent='⏸ Pause';
+  document.getElementById('current-segment').innerHTML='Press <strong>Let us Go!</strong> to start! 🎉';
+  document.getElementById('progress-track').innerHTML='';
+  const u=new SpeechSynthesisUtterance('Welcome to '+m.name+'! Say go or press the button to start your adventure!');
+  u.rate=1.0; u.pitch=1.2;
+  u.onend=()=>setVoiceMode('awaitingStart');
+  synth.speak(u);
+}
+
+function beginAdventure(){
+  setVoiceMode('idle');
+  document.getElementById('start-btn').disabled=true;
+  document.getElementById('start-btn').style.display='none';
+  visitedNodes=[];
+  navigateTo('start');
+}
+
+function navigateTo(nodeId){
+  currentNode=nodeId; visitedNodes.push(nodeId);
+  const node=activeWorld[nodeId];
+  const seg=document.getElementById('current-segment');
+  seg.style.animation='none'; seg.offsetHeight; seg.style.animation='';
+  seg.className='story-segment'; seg.innerHTML=node.text;
+  updateProgress();
+  speakText(node.text,()=>{
+    if(node.ending){ node.ending.win ? showWin(node.ending) : showOops(node.ending); }
+    else { showChoices(node); }
+  });
+}
+
+function speakText(text,onComplete){
+  synth.cancel();
+  pendingCb=onComplete;
+  utterance=new SpeechSynthesisUtterance(text);
+  utterance.rate=0.95; utterance.pitch=1.2; utterance.volume=1;
+  const voices=synth.getVoices();
+  const pref=voices.find(v=>v.name.includes('Samantha')||v.name.includes('Google US English')||v.name.includes('Karen'));
+  if(pref) utterance.voice=pref;
+  const bar=document.getElementById('speaking-bar');
+  const replayBtn=document.getElementById('replay-btn');
+  const skipBtn=document.getElementById('skip-btn');
+  const pauseBtn=document.getElementById('pause-btn');
+  isNarrating=true; isPaused=false;
+  bar.classList.add('active');
+  replayBtn.disabled=true; pauseBtn.disabled=false; pauseBtn.textContent='⏸ Pause';
+  const node=activeWorld[currentNode];
+  skipBtn.disabled=!!(node&&node.ending);
+  let fired=false;
+  const done=()=>{
+    if(fired) return; fired=true;
+    isNarrating=false; isPaused=false;
+    bar.classList.remove('active');
+    replayBtn.disabled=false; skipBtn.disabled=true;
+    pauseBtn.disabled=true; pauseBtn.textContent='⏸ Pause';
+    const cb=pendingCb; pendingCb=null;
+    if(cb) cb();
+  };
+  utterance.onend=done; utterance.onerror=done;
+  setTimeout(()=>synth.speak(utterance),200);
+}
+
+function replaySegment(){
+  if(!currentNode||isNarrating) return;
+  const node=activeWorld[currentNode];
+  speakText(node.text,()=>{ if(!node.ending) showChoices(node); });
+}
+
+function togglePause(){
+  const pb=document.getElementById('pause-btn');
+  const bar=document.getElementById('speaking-bar');
+  if(!isPaused){ synth.pause(); isPaused=true; pb.textContent='▶ Go!'; bar.classList.remove('active'); }
+  else { synth.resume(); isPaused=false; pb.textContent='⏸ Pause'; bar.classList.add('active'); }
+}
+
+function skipToChoice(){
+  if(!isNarrating||!pendingCb) return;
+  synth.cancel();
+  const cb=pendingCb; pendingCb=null; isNarrating=false; isPaused=false;
+  document.getElementById('speaking-bar').classList.remove('active');
+  document.getElementById('replay-btn').disabled=false;
+  document.getElementById('skip-btn').disabled=true;
+  document.getElementById('pause-btn').disabled=true;
+  document.getElementById('pause-btn').textContent='⏸ Pause';
+  cb();
+}
+
+function goBack(){
+  if(visitedNodes.length<2) return;
+  synth.cancel(); visitedNodes.pop();
+  const prev=visitedNodes[visitedNodes.length-1]; currentNode=prev;
+  document.getElementById('modal').classList.remove('open');
+  setTimeout(()=>{
+    const node=activeWorld[prev];
+    const seg=document.getElementById('current-segment');
+    seg.style.animation='none'; seg.offsetHeight; seg.style.animation='';
+    seg.className='story-segment'; seg.innerHTML=node.text;
+    updateProgress(); showChoices(node);
+  },350);
+}
+
+// ============================================================
+// PERSISTENT MIC — opened once, never restarted
+// voiceMode controls what commands are active
+// ============================================================
+
+
+
+
+function warmMic(){
+  if(!SpeechRec||micReady) return;
+  // Open the audio stream silently — Chrome grants permission once and remembers
+  navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+    micStream=stream; // hold open so Chrome doesn't revoke
+    startContinuousRecognition();
+  }).catch(()=>{
+    // Permission denied — voice disabled, buttons only
+  });
+}
+
+function startContinuousRecognition(){
+  if(!SpeechRec) return;
+  micReady=true;
+  recognition=new SpeechRec();
+  recognition.lang='en-US';
+  recognition.continuous=true;
+  recognition.interimResults=false;
+  recognition.maxAlternatives=5;
+
+  recognition.onresult=(event)=>{
+    // Only look at the latest result
+    const idx=event.results.length-1;
+    if(!event.results[idx].isFinal) return;
+    const transcripts=Array.from(event.results[idx]).map(r=>r.transcript.toLowerCase().trim());
+    handleVoiceInput(transcripts);
+  };
+
+  recognition.onerror=(e)=>{
+    // On no-speech or other transient errors, just keep going
+    if(e.error==='not-allowed'){ micReady=false; return; }
+  };
+
+  recognition.onend=()=>{
+    // Auto-restart to keep it alive (unless permission was denied)
+    if(micReady) setTimeout(()=>{ try{ recognition.start(); }catch(e){} },200);
+  };
+
+  try{ recognition.start(); }catch(e){}
+}
+
+function setVoiceMode(mode){
+  voiceMode=mode;
+  updateMicIndicator();
+}
+
+function updateMicIndicator(){
+  const micBtn=document.getElementById('mic-btn');
+  const micStatus=document.getElementById('mic-status');
+  if(!micBtn||!micStatus) return;
+  const voiceArea=document.getElementById('voice-area');
+  if(!micReady||!SpeechRec){ if(voiceArea) voiceArea.style.display='none'; return; }
+  if(voiceArea) voiceArea.style.display='block';
+  if(voiceMode==='awaitingChoice'){
+    micBtn.textContent='🎙️'; micBtn.classList.add('listening');
+    micStatus.textContent='Say One, Two'+(currentChoices.length>2?', or Three':'or Two')+'!';
+  } else {
+    micBtn.textContent='🎤'; micBtn.classList.remove('listening');
+    micStatus.textContent='';
+  }
+}
+
+function handleVoiceInput(transcripts){
+  const t=transcripts.join(' ');
+
+  if(voiceMode==='worldSelect'){
+    if(/forest|magic|tree|fairy/.test(t)){ voiceConfirm('Magic Forest!', ()=>loadWorld('forest')); return; }
+    if(/space|rocket|star|alien/.test(t)){ voiceConfirm('Outer Space!', ()=>loadWorld('space')); return; }
+    if(/dino|dinosaur|rex|jurassic/.test(t)){ voiceConfirm('Dino Land!', ()=>loadWorld('dino')); return; }
+    if(/car|race|vroom|zoom|drive/.test(t)){ voiceConfirm('Racecar Town!', ()=>loadWorld('cars')); return; }
+  }
+
+  if(voiceMode==='awaitingStart'){
+    if(/go|start|yes|begin|play|adventure|let/.test(t)){
+      voiceConfirm('Here we go!', ()=>beginAdventure());
+    }
+  }
+
+  if(voiceMode==='awaitingChoice'){
+    const matched=matchVoiceToChoice(transcripts);
+    if(matched!==-1){
+      setVoiceMode('idle');
+      const u=new SpeechSynthesisUtterance('Option '+(matched+1)+'! Great choice!');
+      u.rate=1.0; u.pitch=1.3;
+      u.onend=()=>makeChoice(currentChoices[matched].next);
+      synth.cancel(); synth.speak(u);
+    } else {
+      // Gently prompt again — don't interrupt if TTS is already speaking
+      if(!synth.speaking){
+        const n=currentChoices.length;
+        const u=new SpeechSynthesisUtterance('Try saying one'+(n>1?', two':'')+(n>2?', or three':'')+'!');
+        u.rate=0.95; u.pitch=1.2; synth.speak(u);
+      }
+    }
+  }
+
+  if(voiceMode==='ending'){
+    if(/again|replay|retry|try|yes/.test(t)){ voiceConfirm('Let us try again!', ()=>tryAgain()); return; }
+    if(/new|world|change|different|pick/.test(t)){ voiceConfirm('Picking a new world!', ()=>goToWorldSelect()); return; }
+  }
+}
+
+function voiceConfirm(msg, cb){
+  // Clear any pending story callback so cancelling doesn't double-trigger it
+  pendingCb=null;
+  synth.cancel();
+  isNarrating=false;
+  const u=new SpeechSynthesisUtterance(msg);
+  u.rate=1.0; u.pitch=1.3;
+  u.onend=cb;
+  setTimeout(()=>synth.speak(u),150);
+}
+
+function matchVoiceToChoice(transcripts){
+  const numberMap={'one':0,'1':0,'won':0,'wan':0,'two':1,'2':1,'to':1,'too':1,'tu':1,'three':2,'3':2,'tree':2,'free':2};
+  for(const t of transcripts){
+    const words=t.split(/\s+/);
+    for(const w of words){
+      if(numberMap[w]!==undefined && numberMap[w]<currentChoices.length) return numberMap[w];
+    }
+    for(let i=0;i<currentChoices.length;i++){
+      const strip=s=>s.replace(/[\u{1F000}-\u{1FFFF}]|[\u2600-\u27FF]|[\uE000-\uF8FF]/gu,'').toLowerCase();
+      const choiceWords=strip(currentChoices[i].text).split(/\s+/).filter(w=>w.length>3);
+      if(choiceWords.filter(w=>t.includes(w)).length>=2) return i;
+    }
+  }
+  return -1;
+}
+
+function showChoices(node){
+  const modal=document.getElementById('modal');
+  const prompt=document.getElementById('modal-prompt');
+  const container=document.getElementById('choices-container');
+  const goBackBtn=document.getElementById('go-back-btn');
+
+  prompt.textContent=node.prompt||'What do you do?';
+  container.innerHTML='';
+  currentChoices=node.choices;
+
+  const buttons=[];
+  node.choices.forEach((choice,i)=>{
+    const btn=document.createElement('button');
+    btn.className='choice-btn'; btn.textContent=choice.text;
+    btn.style.animationDelay=(i*0.1)+'s';
+    btn.onclick=()=>{ setVoiceMode('idle'); makeChoice(choice.next); };
+    btn.disabled=true;
+    container.appendChild(btn);
+    buttons.push(btn);
+  });
+
+  goBackBtn.disabled=true;
+  const voiceArea=document.getElementById('voice-area');
+  if(voiceArea) voiceArea.style.display=micReady?'block':'none';
+  modal.classList.add('open');
+  setVoiceMode('idle'); // don't listen while TTS is speaking choices
+
+  const strip=t=>t.replace(/[\u{1F000}-\u{1FFFF}]|[\u2600-\u27FF]|[\uE000-\uF8FF]/gu,'').trim();
+  const choiceLines=node.choices.map((c,i)=>'Option '+(i+1)+'. '+strip(c.text)).join('. ');
+  const fullText=strip(node.prompt||'What do you do?')+'  '+choiceLines+(micReady?'. Say the number to choose!':'');
+
+  const u=new SpeechSynthesisUtterance(fullText);
+  u.rate=0.92; u.pitch=1.2;
+  const voices=synth.getVoices();
+  const pref=voices.find(v=>v.name.includes('Samantha')||v.name.includes('Google US English')||v.name.includes('Karen'));
+  if(pref) u.voice=pref;
+  u.onend=u.onerror=()=>{
+    buttons.forEach(b=>b.disabled=false);
+    goBackBtn.disabled=visitedNodes.length<=1;
+    setVoiceMode('awaitingChoice');
+  };
+  synth.cancel();
+  setTimeout(()=>synth.speak(u),300);
+}
+
+function makeChoice(nextNode){
+  synth.cancel(); setVoiceMode('idle');
+  document.getElementById('modal').classList.remove('open');
+  setTimeout(()=>navigateTo(nextNode),350);
+}
+
+
+
+function updateProgress(){
+  const track=document.getElementById('progress-track');
+  const steps=activeWorld.meta.steps;
+  track.innerHTML='';
+  for(let i=0;i<steps;i++){
+    const pip=document.createElement('div');
+    pip.className='star-pip'; pip.textContent='⭐';
+    if(i<visitedNodes.length-1) pip.classList.add('visited');
+    if(i===visitedNodes.length-1) pip.classList.add('current');
+    track.appendChild(pip);
+  }
+}
+
+function showWin(ending){
+  synth.cancel(); hideMainUI();
+  document.getElementById('win-emoji').textContent=ending.emoji;
+  document.getElementById('win-title').textContent=ending.title;
+  document.getElementById('win-desc').textContent=ending.desc;
+  document.getElementById('win-screen').classList.add('show');
+  const u=new SpeechSynthesisUtterance('Hooray! '+ending.title+'! '+ending.desc+' You are amazing! Say again to play again, or say new world to pick a different world!');
+  u.rate=0.95; u.pitch=1.3;
+  u.onend=()=>setVoiceMode('ending');
+  synth.speak(u);
+}
+
+function showOops(ending){
+  synth.cancel(); hideMainUI();
+  document.getElementById('oops-emoji').textContent=ending.emoji;
+  document.getElementById('oops-title').textContent=ending.title;
+  document.getElementById('oops-desc').textContent=ending.desc;
+  document.getElementById('oops-screen').classList.add('show');
+  const u=new SpeechSynthesisUtterance('Oops! '+ending.desc+' That is okay! Say again to try again, or say new world!');
+  u.rate=0.95; u.pitch=1.2;
+  u.onend=()=>setVoiceMode('ending');
+  synth.speak(u);
+}
+
+function tryAgain(){
+  synth.cancel(); setVoiceMode('idle');
+  document.getElementById('win-screen').classList.remove('show');
+  document.getElementById('oops-screen').classList.remove('show');
+  visitedNodes=[]; currentNode=null; pendingCb=null; isPaused=false;
+  showMainUI();
+  document.getElementById('current-segment').innerHTML='Say go or press <strong>Let us Go!</strong> to try again! 🎉';
+  document.getElementById('progress-track').innerHTML='';
+  document.getElementById('start-btn').style.display='inline-block';
+  document.getElementById('start-btn').disabled=false;
+  document.getElementById('replay-btn').disabled=true;
+  document.getElementById('skip-btn').disabled=true;
+  document.getElementById('pause-btn').disabled=true;
+  document.getElementById('pause-btn').textContent='⏸ Pause';
+  setVoiceMode('awaitingStart');
+}
+
+function goToWorldSelect(){
+  synth.cancel(); activeWorld=null; currentNode=null; visitedNodes=[]; pendingCb=null; isPaused=false;
+  document.body.className='theme-select';
+  document.getElementById('world-emoji').textContent='🌟';
+  document.getElementById('main-title').textContent='My Big Adventure!';
+  document.getElementById('subtitle-tag').textContent='Choose Your Story';
+  document.getElementById('win-screen').classList.remove('show');
+  document.getElementById('oops-screen').classList.remove('show');
+  hideMainUI();
+  const ws=document.getElementById('world-select');
+  ws.style.display='block'; ws.classList.add('show');
+  document.getElementById('story-text').style.display='none';
+  document.getElementById('controls').style.display='none';
+  document.getElementById('progress-track').innerHTML='';
+  spawnDoodles(['🌟','🎉','⭐','🌈','✨','🎊','💫','🌸']);
+  setVoiceMode('worldSelect');
+}
+
+function hideMainUI(){
+  ['story-text','speaking-bar','replay-btn','skip-btn','pause-btn','progress-track','controls']
+    .forEach(id=>document.getElementById(id).style.display='none');
+}
+function showMainUI(){
+  document.getElementById('story-text').style.display='block';
+  document.getElementById('speaking-bar').style.display='flex';
+  document.getElementById('controls').style.display='flex';
+  document.getElementById('replay-btn').style.display='inline-block';
+  document.getElementById('skip-btn').style.display='inline-block';
+  document.getElementById('pause-btn').style.display='inline-block';
+  document.getElementById('progress-track').style.display='flex';
+}
+if(speechSynthesis.onvoiceschanged!==undefined){ speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices(); }
+</script>
+
+
+</body></html>
