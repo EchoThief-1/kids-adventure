@@ -170,6 +170,7 @@ body.theme-cars .win-title   { color: #2176ae; }
   <span class="world-emoji" id="world-emoji">🌟</span>
   <div class="main-title" id="main-title">My Big Adventure!</div>
   <div class="subtitle-tag" id="subtitle-tag">Choose Your Story</div>
+  <button class="btn" id="home-btn" onclick="goToWorldSelect()" style="display:none; margin-top:0.75rem; font-size:0.9rem;">🏠 Home</button>
 </header>
 <div class="stage">
   <div class="world-select show" id="world-select">
@@ -321,6 +322,7 @@ function loadWorld(worldId){
   spawnDoodles(m.doodles);
   document.getElementById('world-select').classList.remove('show');
   document.getElementById('world-select').style.display='none';
+  document.getElementById('home-btn').style.display='inline-block';
   document.getElementById('story-text').style.display='block';
   document.getElementById('controls').style.display='flex';
   visitedNodes=[]; currentNode=null; pendingCb=null; isPaused=false;
@@ -512,6 +514,9 @@ function updateMicIndicator(){
 function handleVoiceInput(transcripts){
   const t=transcripts.join(' ');
 
+  // "Home" works in any mode
+  if(/\bhome\b/.test(t)){ voiceConfirm('Going home!', ()=>goToWorldSelect()); return; }
+
   if(voiceMode==='worldSelect'){
     if(/forest|magic|tree|fairy/.test(t)){ voiceConfirm('Magic Forest!', ()=>loadWorld('forest')); return; }
     if(/space|rocket|star|alien/.test(t)){ voiceConfirm('Outer Space!', ()=>loadWorld('space')); return; }
@@ -688,6 +693,7 @@ function goToWorldSelect(){
   document.getElementById('world-emoji').textContent='🌟';
   document.getElementById('main-title').textContent='My Big Adventure!';
   document.getElementById('subtitle-tag').textContent='Choose Your Story';
+  document.getElementById('home-btn').style.display='none';
   document.getElementById('win-screen').classList.remove('show');
   document.getElementById('oops-screen').classList.remove('show');
   hideMainUI();
