@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0055)file:///Users/mattbowen/Downloads/adventure-kids_5.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="en"><head><meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Big Adventure!</title>
@@ -165,15 +164,15 @@ body.theme-cars .win-title   { color: #2176ae; }
 .wc-cars .wc-name   { color: #2176ae; }
 </style>
 </head>
-<body class="theme-space">
-<div class="doodles" id="doodles"><div class="doodle" style="left: 66.5299vw; animation-duration: 14.524s; animation-delay: 2.8604s;">⭐</div><div class="doodle" style="left: 50.872vw; animation-duration: 15.8807s; animation-delay: 10.2766s;">🌙</div><div class="doodle" style="left: 88.274vw; animation-duration: 8.84054s; animation-delay: 7.57335s;">💫</div><div class="doodle" style="left: 85.4699vw; animation-duration: 17.5489s; animation-delay: 4.27053s;">🪐</div><div class="doodle" style="left: 86.5487vw; animation-duration: 13.0562s; animation-delay: 4.51802s;">✨</div><div class="doodle" style="left: 43.4606vw; animation-duration: 11.2813s; animation-delay: 7.93122s;">🌟</div><div class="doodle" style="left: 78.1115vw; animation-duration: 11.908s; animation-delay: 9.07455s;">☄️</div><div class="doodle" style="left: 90.3754vw; animation-duration: 13.578s; animation-delay: 2.4001s;">👾</div></div>
+<body class="theme-select">
+<div class="doodles" id="doodles"></div>
 <header>
-  <span class="world-emoji" id="world-emoji">🚀</span>
-  <div class="main-title" id="main-title">Outer Space</div>
-  <div class="subtitle-tag" id="subtitle-tag">A Galactic Adventure</div>
+  <span class="world-emoji" id="world-emoji">🌟</span>
+  <div class="main-title" id="main-title">My Big Adventure!</div>
+  <div class="subtitle-tag" id="subtitle-tag">Choose Your Story</div>
 </header>
 <div class="stage">
-  <div class="world-select" id="world-select" style="display: none;">
+  <div class="world-select show" id="world-select">
     <div class="world-select-title">Pick Your World! 🌍</div>
     <div class="world-select-sub">Tap a world — or say its name! 🎤</div>
     <div class="world-cards">
@@ -183,13 +182,13 @@ body.theme-cars .win-title   { color: #2176ae; }
       <div class="world-card wc-cars" onclick="loadWorld(&#39;cars&#39;)"><span class="wc-icon">🏎️</span><div class="wc-name">Racecar Town</div></div>
     </div>
   </div>
-  <div id="story-text" style="display: block;"><div class="story-segment" id="current-segment" style="">WHOOSH! Your rocket blasts off into space! You can see a million stars! Suddenly your radio crackles. Hello hello! says a friendly alien voice. I am Zorp! I am lost and I need help getting home to Planet Bloop! Will you help me?</div></div>
+  <div id="story-text" style="display: none;"><div class="story-segment" id="current-segment"></div></div>
   <div class="speaking-bar" id="speaking-bar" style="display: none;">
     <div class="bar-label">Listening...</div>
     <div class="wave"><span></span><span></span><span></span><span></span><span></span></div>
   </div>
-  <div class="progress-track" id="progress-track" style="display: none;"><div class="star-pip current">⭐</div><div class="star-pip">⭐</div><div class="star-pip">⭐</div></div>
-  <div class="controls" id="controls" style="display: flex;">
+  <div class="progress-track" id="progress-track" style="display: none;"></div>
+  <div class="controls" id="controls" style="display: none;">
     <button class="btn primary" id="start-btn" onclick="beginAdventure()" disabled="" style="display: none;">🎉 Let us Go!</button>
     <button class="btn" id="replay-btn" onclick="replaySegment()" style="display: none;">🔊 Again!</button>
     <button class="btn" id="pause-btn" onclick="togglePause()" disabled="" style="display: none;">⏸ Pause</button>
@@ -204,19 +203,19 @@ body.theme-cars .win-title   { color: #2176ae; }
   </div>
   <div class="win-screen" id="win-screen">
     <span class="win-emoji" id="win-emoji">🏁</span>
-    <div class="win-title" id="win-title">You found the lucky flag!</div>
-    <div class="win-desc" id="win-desc">Zippy wins the race AND you are the star of the day! VROOM!</div>
+    <div class="win-title" id="win-title"></div>
+    <div class="win-desc" id="win-desc"></div>
     <div class="stars-display">⭐⭐⭐</div>
     <button class="btn primary" onclick="tryAgain()">🔄 Play Again!</button>
     <button class="btn" style="margin-top:0.5rem" onclick="goToWorldSelect()">🌍 Try Another World</button>
   </div>
 </div>
-<div class="modal-backdrop open" id="modal">
+<div class="modal-backdrop" id="modal">
   <div class="modal">
     <div class="modal-icon" id="modal-icon">👾</div>
     <div class="modal-title">What do you do?</div>
     <div class="modal-prompt" id="modal-prompt">Which way do you fly?</div>
-    <div class="choices" id="choices-container"><button class="choice-btn" style="animation-delay: 0s;">🌙 Fly past the big moon!</button><button class="choice-btn" style="animation-delay: 0.1s;">🪐 Zoom toward the ringed planet!</button><button class="choice-btn" style="animation-delay: 0.2s;">⭐ Follow the brightest star!</button></div>
+    <div class="choices" id="choices-container"></div>
     <!-- Voice input area -->
     <div id="voice-area" style="text-align: center; margin-top: 1.2rem; display: block;">
       <button id="mic-btn" onclick="startListening()" style="
@@ -224,7 +223,7 @@ body.theme-cars .win-title   { color: #2176ae; }
         animation:bounce-icon 2s ease-in-out infinite;
         filter:drop-shadow(0 0 8px rgba(0,0,0,0.2));
         transition:transform 0.2s;
-      " class="listening">🎙️</button>
+      ">🎙️</button>
       <div id="mic-status" style="font-family:&#39;Fredoka One&#39;,cursive;font-size:0.95rem;margin-top:0.3rem;opacity:0.7;">Say One, Two, or Three!</div>
     </div>
     <button class="go-back-btn" id="go-back-btn" onclick="goBack()" disabled="">Oops, go back!</button>
