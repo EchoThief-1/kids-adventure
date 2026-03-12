@@ -381,7 +381,7 @@ function speakText(text,onComplete){
     if(fired) return; fired=true;
     isNarrating=false; isPaused=false;
     bar.classList.remove('active');
-    replayBtn.disabled=false; skipBtn.disabled=true;
+    replayBtn.disabled=false; skipBtn.disabled=!!(node&&node.ending);
     pauseBtn.disabled=true; pauseBtn.textContent='⏸ Pause';
     const cb=pendingCb; pendingCb=null;
     if(cb) cb();
@@ -404,15 +404,22 @@ function togglePause(){
 }
 
 function skipToChoice(){
-  if(!isNarrating||!pendingCb) return;
-  synth.cancel();
-  const cb=pendingCb; pendingCb=null; isNarrating=false; isPaused=false;
-  document.getElementById('speaking-bar').classList.remove('active');
-  document.getElementById('replay-btn').disabled=false;
-  document.getElementById('skip-btn').disabled=true;
-  document.getElementById('pause-btn').disabled=true;
-  document.getElementById('pause-btn').textContent='⏸ Pause';
-  cb();
+  const node=activeWorld[currentNode];
+  if(!node||node.ending) return;
+  if(isNarrating&&pendingCb){
+    // Skip mid-narration
+    synth.cancel();
+    const cb=pendingCb; pendingCb=null; isNarrating=false; isPaused=false;
+    document.getElementById('speaking-bar').classList.remove('active');
+    document.getElementById('replay-btn').disabled=false;
+    document.getElementById('skip-btn').disabled=false;
+    document.getElementById('pause-btn').disabled=true;
+    document.getElementById('pause-btn').textContent='⏸ Pause';
+    cb();
+  } else if(!isNarrating){
+    // Narration already done — re-show choices
+    showChoices(node);
+  }
 }
 
 function goBack(){
@@ -492,7 +499,7 @@ function updateMicIndicator(){
   if(voiceArea) voiceArea.style.display='block';
   if(voiceMode==='awaitingChoice'){
     micBtn.textContent='🎙️'; micBtn.classList.add('listening');
-    micStatus.textContent='Say One, Two'+(currentChoices.length>2?', or Three':'or Two')+'!';
+    micStatus.textContent='Say One'+(currentChoices.length>2?', Two, or Three':' or Two')+'!';
   } else {
     micBtn.textContent='🎤'; micBtn.classList.remove('listening');
     micStatus.textContent='';
