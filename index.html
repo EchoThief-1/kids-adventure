@@ -326,8 +326,11 @@ function loadWorld(worldId){
   visitedNodes=[]; currentNode=null; pendingCb=null; isPaused=false;
   document.getElementById('start-btn').style.display='inline-block';
   document.getElementById('start-btn').disabled=false;
+  document.getElementById('replay-btn').style.display='inline-block';
   document.getElementById('replay-btn').disabled=true;
+  document.getElementById('pause-btn').style.display='inline-block';
   document.getElementById('pause-btn').disabled=true;
+  document.getElementById('skip-btn').style.display='inline-block';
   document.getElementById('skip-btn').disabled=true;
   document.getElementById('pause-btn').textContent='⏸ Pause';
   document.getElementById('current-segment').innerHTML='Press <strong>Let us Go!</strong> to start! 🎉';
@@ -583,24 +586,25 @@ function showChoices(node){
   container.innerHTML='';
   currentChoices=node.choices;
 
+  const strip=t=>t.replace(/[\u{1F000}-\u{1FFFF}]|[\u2600-\u27FF]|[\uE000-\uF8FF]/gu,'').trim();
+
   const buttons=[];
   node.choices.forEach((choice,i)=>{
     const btn=document.createElement('button');
-    btn.className='choice-btn'; btn.textContent=choice.text;
+    btn.className='choice-btn'; btn.textContent=strip(choice.text);
     btn.style.animationDelay=(i*0.1)+'s';
     btn.onclick=()=>{ setVoiceMode('idle'); makeChoice(choice.next); };
-    btn.disabled=true;
+    btn.disabled=false;
     container.appendChild(btn);
     buttons.push(btn);
   });
 
-  goBackBtn.disabled=true;
+  goBackBtn.disabled=visitedNodes.length<=1;
   const voiceArea=document.getElementById('voice-area');
   if(voiceArea) voiceArea.style.display=micReady?'block':'none';
   modal.classList.add('open');
   setVoiceMode('idle'); // don't listen while TTS is speaking choices
 
-  const strip=t=>t.replace(/[\u{1F000}-\u{1FFFF}]|[\u2600-\u27FF]|[\uE000-\uF8FF]/gu,'').trim();
   const choiceLines=node.choices.map((c,i)=>'Option '+(i+1)+'. '+strip(c.text)).join('. ');
   const fullText=strip(node.prompt||'What do you do?')+'  '+choiceLines+(micReady?'. Say the number to choose!':'');
 
@@ -610,8 +614,6 @@ function showChoices(node){
   const pref=voices.find(v=>v.name.includes('Samantha')||v.name.includes('Google US English')||v.name.includes('Karen'));
   if(pref) u.voice=pref;
   u.onend=u.onerror=()=>{
-    buttons.forEach(b=>b.disabled=false);
-    goBackBtn.disabled=visitedNodes.length<=1;
     setVoiceMode('awaitingChoice');
   };
   synth.cancel();
