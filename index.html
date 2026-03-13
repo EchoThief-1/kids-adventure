@@ -3,7 +3,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Big Adventure!</title>
-<link href="./My Big Adventure! - kids 5_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; font-family: 'Nunito', sans-serif; font-size: 1.25rem; transition: background 1s ease; }
@@ -90,7 +90,6 @@ body.theme-select .btn.primary { background: #e65100; color: #fff; border: 2px s
 @keyframes star-pulse { 0%,100%{transform:scale(1.3)} 50%{transform:scale(1.5)} }
 .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
 .modal-backdrop.open { opacity: 1; pointer-events: all; }
-.modal { border-radius: 24px; width: min(500px, 92vw); padding: 2rem; transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
 body.theme-forest .modal { background: #f0fff0; border: 4px solid #56c45a; box-shadow: 0 10px 40px rgba(45,138,48,0.3); }
 body.theme-space .modal  { background: #0d0d40; border: 4px solid #4444cc; box-shadow: 0 10px 40px rgba(100,100,255,0.4); }
 body.theme-dino .modal   { background: #fff8e8; border: 4px solid #ffb347; box-shadow: 0 10px 40px rgba(224,123,57,0.3); }
@@ -166,6 +165,22 @@ body.theme-lucky .win-title  { color: #1b5e20; }
 .world-select.show { display: block; }
 .world-select-title { font-family: 'Fredoka One', cursive; font-size: 2rem; margin-bottom: 0.5rem; color: #e65100; }
 .world-select-sub { font-weight: 700; font-size: 1rem; color: #7a5a00; margin-bottom: 1.5rem; }
+.settings-row { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.4rem; }
+.toggle-pill { display: flex; align-items: center; gap: 0.5rem; background: #fff; border: 2px solid #ffca28; border-radius: 50px; padding: 0.4rem 1rem; cursor: pointer; font-family: 'Fredoka One', cursive; font-size: 0.95rem; color: #7a5a00; user-select: none; transition: all 0.2s; box-shadow: 0 3px 0 rgba(0,0,0,0.1); }
+.toggle-pill:hover { transform: translateY(-2px); box-shadow: 0 5px 0 rgba(0,0,0,0.1); }
+.toggle-pill.off { background: #f5f5f5; border-color: #ccc; color: #aaa; }
+.toggle-dot { width: 22px; height: 22px; border-radius: 50%; background: #4caf50; transition: background 0.2s; flex-shrink: 0; }
+.toggle-pill.off .toggle-dot { background: #ccc; }
+.modal-close-btn { position: absolute; top: 0.75rem; right: 0.75rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; opacity: 0.5; line-height: 1; padding: 0.2rem 0.4rem; border-radius: 8px; transition: opacity 0.2s; }
+.modal-close-btn:hover { opacity: 1; }
+.modal { position: relative; border-radius: 24px; width: min(500px, 92vw); padding: 2rem; transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+.modal-replay-btn { font-family: 'Fredoka One', cursive; font-size: 0.9rem; margin-top: 1rem; padding: 0.5rem 1.3rem; border-radius: 50px; cursor: pointer; border: 2px solid; background: transparent; transition: all 0.2s; display: block; margin-left: auto; margin-right: auto; }
+.modal-replay-btn:hover { opacity: 0.8; transform: scale(1.05); }
+body.theme-forest .modal-replay-btn { color: #2d8a30; border-color: #56c45a; }
+body.theme-space .modal-replay-btn  { color: #aaaaee; border-color: #4444cc; }
+body.theme-dino .modal-replay-btn   { color: #e07b39; border-color: #ffb347; }
+body.theme-cars .modal-replay-btn   { color: #64b5f6; border-color: #87ceeb; }
+body.theme-lucky .modal-replay-btn  { color: #4caf50; border-color: #4caf50; }
 .world-cards { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
 .world-card { width: min(160px, 44vw); border-radius: 20px; padding: 1.5rem 1rem; cursor: pointer; transition: all 0.25s; text-align: center; border: 3px solid transparent; box-shadow: 0 5px 0 rgba(0,0,0,0.15); }
 .world-card:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 10px 0 rgba(0,0,0,0.15); }
@@ -195,6 +210,14 @@ body.theme-lucky .win-title  { color: #1b5e20; }
   <div class="world-select show" id="world-select">
     <div class="world-select-title">Pick Your World! 🌍</div>
     <div class="world-select-sub">Tap a world — or say its name! 🎤</div>
+    <div class="settings-row">
+      <div class="toggle-pill" id="sound-toggle" onclick="toggleSound()">
+        <div class="toggle-dot"></div><span id="sound-label">Sound On</span>
+      </div>
+      <div class="toggle-pill" id="mic-toggle" onclick="toggleMic()">
+        <div class="toggle-dot"></div><span id="mic-label">Mic On</span>
+      </div>
+    </div>
     <div class="world-cards">
       <div class="world-card wc-forest" onclick="loadWorld('forest')"><span class="wc-icon">🌲</span><div class="wc-name">Magic Forest</div></div>
       <div class="world-card wc-space" onclick="loadWorld('space')"><span class="wc-icon">🚀</span><div class="wc-name">Outer Space</div></div>
@@ -213,7 +236,7 @@ body.theme-lucky .win-title  { color: #1b5e20; }
     <button class="btn primary" id="start-btn" onclick="beginAdventure()" disabled="" style="display: none;">🎉 Let us Go!</button>
     <button class="btn" id="replay-btn" onclick="replaySegment()" style="display: none;">🔊 Again!</button>
     <button class="btn" id="pause-btn" onclick="togglePause()" disabled="" style="display: none;">⏸ Pause</button>
-    <button class="btn" id="skip-btn" onclick="skipToChoice()" disabled="" style="display: none;">⏭ Skip</button>
+    <button class="btn" id="skip-btn" onclick="skipToChoice()" disabled="" style="display: none;">👆 Choose Now!</button>
   </div>
   <div class="oops-screen" id="oops-screen">
     <span class="oops-emoji" id="oops-emoji">😅</span>
@@ -233,6 +256,7 @@ body.theme-lucky .win-title  { color: #1b5e20; }
 </div>
 <div class="modal-backdrop" id="modal">
   <div class="modal">
+    <button class="modal-close-btn" onclick="closeModal()" title="Go back to story">✕</button>
     <div class="modal-icon" id="modal-icon">👾</div>
     <div class="modal-title">What do you do?</div>
     <div class="modal-prompt" id="modal-prompt">Which way do you fly?</div>
@@ -245,8 +269,9 @@ body.theme-lucky .win-title  { color: #1b5e20; }
         filter:drop-shadow(0 0 8px rgba(0,0,0,0.2));
         transition:transform 0.2s;
       ">🎙️</button>
-      <div id="mic-status" style="font-family:&#39;Fredoka One&#39;,cursive;font-size:0.95rem;margin-top:0.3rem;opacity:0.7;">Say One, Two, or Three!</div>
+      <div id="mic-status" style="font-family:'Fredoka One',cursive;font-size:0.95rem;margin-top:0.3rem;opacity:0.7;">Say One, Two, or Three!</div>
     </div>
+    <button class="modal-replay-btn" id="modal-replay-btn" onclick="replayFromModal()">🔊 Read it again!</button>
     <button class="go-back-btn" id="go-back-btn" onclick="goBack()" disabled="">Oops, go back!</button>
   </div>
 </div>
@@ -326,6 +351,7 @@ let currentChoices=[];
 let voiceMode='idle';
 let micStream=null,recognition=null,micReady=false;
 let visitedNodes=[],isNarrating=false,isPaused=false,pendingCb=null;
+let soundOn=true, micEnabled=true;
 
 function spawnDoodles(items){
   const c=document.getElementById('doodles');
@@ -370,10 +396,14 @@ function loadWorld(worldId){
   document.getElementById('pause-btn').textContent='⏸ Pause';
   document.getElementById('current-segment').innerHTML='Press <strong>Let us Go!</strong> to start! 🎉';
   document.getElementById('progress-track').innerHTML='';
-  const u=new SpeechSynthesisUtterance('Welcome to '+m.name+'! Say go or press the button to start your adventure!');
-  u.rate=1.0; u.pitch=1.2;
-  u.onend=()=>setVoiceMode('awaitingStart');
-  synth.speak(u);
+  if(soundOn){
+    const u=new SpeechSynthesisUtterance('Welcome to '+m.name+'! Say go or press the button to start your adventure!');
+    u.rate=1.0; u.pitch=1.2;
+    u.onend=()=>setVoiceMode('awaitingStart');
+    synth.speak(u);
+  } else {
+    setVoiceMode('awaitingStart');
+  }
 }
 
 function beginAdventure(){
@@ -400,19 +430,29 @@ function navigateTo(nodeId){
 function speakText(text,onComplete){
   synth.cancel();
   pendingCb=onComplete;
+  const bar=document.getElementById('speaking-bar');
+  const replayBtn=document.getElementById('replay-btn');
+  const skipBtn=document.getElementById('skip-btn');
+  const pauseBtn=document.getElementById('pause-btn');
+  const node=activeWorld[currentNode];
+  if(!soundOn){
+    // Sound off — skip straight to callback, keep buttons enabled
+    isNarrating=false; isPaused=false;
+    bar.classList.remove('active');
+    replayBtn.disabled=false; skipBtn.disabled=!!(node&&node.ending);
+    pauseBtn.disabled=true;
+    const cb=pendingCb; pendingCb=null;
+    if(cb) cb();
+    return;
+  }
   utterance=new SpeechSynthesisUtterance(text);
   utterance.rate=0.95; utterance.pitch=1.2; utterance.volume=1;
   const voices=synth.getVoices();
   const pref=voices.find(v=>v.name.includes('Samantha')||v.name.includes('Google US English')||v.name.includes('Karen'));
   if(pref) utterance.voice=pref;
-  const bar=document.getElementById('speaking-bar');
-  const replayBtn=document.getElementById('replay-btn');
-  const skipBtn=document.getElementById('skip-btn');
-  const pauseBtn=document.getElementById('pause-btn');
   isNarrating=true; isPaused=false;
   bar.classList.add('active');
   replayBtn.disabled=true; pauseBtn.disabled=false; pauseBtn.textContent='⏸ Pause';
-  const node=activeWorld[currentNode];
   skipBtn.disabled=!!(node&&node.ending);
   let fired=false;
   const done=()=>{
@@ -435,6 +475,7 @@ function replaySegment(){
 }
 
 function togglePause(){
+  if(!soundOn) return;
   const pb=document.getElementById('pause-btn');
   const bar=document.getElementById('speaking-bar');
   if(!isPaused){ synth.pause(); isPaused=true; pb.textContent='▶ Go!'; bar.classList.remove('active'); }
@@ -533,7 +574,7 @@ function updateMicIndicator(){
   const micStatus=document.getElementById('mic-status');
   if(!micBtn||!micStatus) return;
   const voiceArea=document.getElementById('voice-area');
-  if(!micReady||!SpeechRec){ if(voiceArea) voiceArea.style.display='none'; return; }
+  if(!micReady||!SpeechRec||!micEnabled){ if(voiceArea) voiceArea.style.display='none'; return; }
   if(voiceArea) voiceArea.style.display='block';
   if(voiceMode==='awaitingChoice'){
     micBtn.textContent='🎙️'; micBtn.classList.add('listening');
@@ -545,6 +586,7 @@ function updateMicIndicator(){
 }
 
 function handleVoiceInput(transcripts){
+  if(!micEnabled) return;
   const t=transcripts.join(' ');
 
   // "Home" works in any mode
@@ -589,14 +631,49 @@ function handleVoiceInput(transcripts){
 }
 
 function voiceConfirm(msg, cb){
-  // Clear any pending story callback so cancelling doesn't double-trigger it
   pendingCb=null;
   synth.cancel();
   isNarrating=false;
+  if(!soundOn){ cb(); return; }
   const u=new SpeechSynthesisUtterance(msg);
   u.rate=1.0; u.pitch=1.3;
   u.onend=cb;
   setTimeout(()=>synth.speak(u),150);
+}
+
+function toggleSound(){
+  soundOn=!soundOn;
+  synth.cancel();
+  const pill=document.getElementById('sound-toggle');
+  const label=document.getElementById('sound-label');
+  pill.classList.toggle('off',!soundOn);
+  label.textContent=soundOn?'Sound On':'Sound Off';
+}
+
+function toggleMic(){
+  micEnabled=!micEnabled;
+  const pill=document.getElementById('mic-toggle');
+  const label=document.getElementById('mic-label');
+  pill.classList.toggle('off',!micEnabled);
+  label.textContent=micEnabled?'Mic On':'Mic Off';
+  updateMicIndicator();
+}
+
+function closeModal(){
+  synth.cancel();
+  setVoiceMode('idle');
+  document.getElementById('modal').classList.remove('open');
+}
+
+function replayFromModal(){
+  if(!currentNode) return;
+  const node=activeWorld[currentNode];
+  document.getElementById('modal').classList.remove('open');
+  setVoiceMode('idle');
+  synth.cancel();
+  setTimeout(()=>{
+    speakText(node.text,()=>{ if(!node.ending) showChoices(node); });
+  },350);
 }
 
 function matchVoiceToChoice(transcripts){
@@ -640,12 +717,17 @@ function showChoices(node){
 
   goBackBtn.disabled=visitedNodes.length<=1;
   const voiceArea=document.getElementById('voice-area');
-  if(voiceArea) voiceArea.style.display=micReady?'block':'none';
+  if(voiceArea) voiceArea.style.display=(micReady&&micEnabled)?'block':'none';
   modal.classList.add('open');
-  setVoiceMode('idle'); // don't listen while TTS is speaking choices
+  setVoiceMode('idle');
+
+  if(!soundOn){
+    setVoiceMode('awaitingChoice');
+    return;
+  }
 
   const choiceLines=node.choices.map((c,i)=>'Option '+(i+1)+'. '+strip(c.text)).join('. ');
-  const fullText=strip(node.prompt||'What do you do?')+'  '+choiceLines+(micReady?'. Say the number to choose!':'');
+  const fullText=strip(node.prompt||'What do you do?')+'  '+choiceLines+((micReady&&micEnabled)?'. Say the number to choose!':'');
 
   const u=new SpeechSynthesisUtterance(fullText);
   u.rate=0.92; u.pitch=1.2;
@@ -686,10 +768,14 @@ function showWin(ending){
   document.getElementById('win-title').textContent=ending.title;
   document.getElementById('win-desc').textContent=ending.desc;
   document.getElementById('win-screen').classList.add('show');
-  const u=new SpeechSynthesisUtterance('Hooray! '+ending.title+'! '+ending.desc+' You are amazing! Say again to play again, or say new world to pick a different world!');
-  u.rate=0.95; u.pitch=1.3;
-  u.onend=()=>setVoiceMode('ending');
-  synth.speak(u);
+  if(soundOn){
+    const u=new SpeechSynthesisUtterance('Hooray! '+ending.title+'! '+ending.desc+' You are amazing! Say again to play again, or say new world to pick a different world!');
+    u.rate=0.95; u.pitch=1.3;
+    u.onend=()=>setVoiceMode('ending');
+    synth.speak(u);
+  } else {
+    setVoiceMode('ending');
+  }
 }
 
 function showOops(ending){
@@ -698,10 +784,14 @@ function showOops(ending){
   document.getElementById('oops-title').textContent=ending.title;
   document.getElementById('oops-desc').textContent=ending.desc;
   document.getElementById('oops-screen').classList.add('show');
-  const u=new SpeechSynthesisUtterance('Oops! '+ending.desc+' That is okay! Say again to try again, or say new world!');
-  u.rate=0.95; u.pitch=1.2;
-  u.onend=()=>setVoiceMode('ending');
-  synth.speak(u);
+  if(soundOn){
+    const u=new SpeechSynthesisUtterance('Oops! '+ending.desc+' That is okay! Say again to try again, or say new world!');
+    u.rate=0.95; u.pitch=1.2;
+    u.onend=()=>setVoiceMode('ending');
+    synth.speak(u);
+  } else {
+    setVoiceMode('ending');
+  }
 }
 
 function tryAgain(){
