@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8">
+<!-- saved from url=(0044)file:///Users/mattbowen/Downloads/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Big Adventure!</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+<link href="./index_files/css2" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; font-family: 'Nunito', sans-serif; font-size: 1.25rem; transition: background 1s ease; }
@@ -199,7 +200,7 @@ body.theme-lucky .modal-replay-btn  { color: #4caf50; border-color: #4caf50; }
 </style>
 </head>
 <body class="theme-select">
-<div class="doodles" id="doodles"></div>
+<div class="doodles" id="doodles"><div class="doodle" style="left: 50.6058vw; animation-duration: 10.0685s; animation-delay: 10.4581s;">🌟</div><div class="doodle" style="left: 35.6384vw; animation-duration: 8.61175s; animation-delay: 2.83735s;">🎉</div><div class="doodle" style="left: 76.7536vw; animation-duration: 14.5921s; animation-delay: 7.17576s;">⭐</div><div class="doodle" style="left: 60.132vw; animation-duration: 8.61137s; animation-delay: 7.85236s;">🌈</div><div class="doodle" style="left: 68.2251vw; animation-duration: 12.1664s; animation-delay: 0.363965s;">✨</div><div class="doodle" style="left: 16.2536vw; animation-duration: 16.5385s; animation-delay: 7.20865s;">🎊</div><div class="doodle" style="left: 87.2707vw; animation-duration: 8.31241s; animation-delay: 2.02323s;">💫</div><div class="doodle" style="left: 39.7783vw; animation-duration: 14.0191s; animation-delay: 4.6269s;">🌸</div></div>
 <header>
   <span class="world-emoji" id="world-emoji">🌟</span>
   <div class="main-title" id="main-title">My Big Adventure!</div>
@@ -219,11 +220,11 @@ body.theme-lucky .modal-replay-btn  { color: #4caf50; border-color: #4caf50; }
       </div>
     </div>
     <div class="world-cards">
-      <div class="world-card wc-forest" onclick="loadWorld('forest')"><span class="wc-icon">🌲</span><div class="wc-name">Magic Forest</div></div>
-      <div class="world-card wc-space" onclick="loadWorld('space')"><span class="wc-icon">🚀</span><div class="wc-name">Outer Space</div></div>
-      <div class="world-card wc-dino" onclick="loadWorld('dino')"><span class="wc-icon">🦕</span><div class="wc-name">Dino Land</div></div>
-      <div class="world-card wc-cars" onclick="loadWorld('cars')"><span class="wc-icon">🏎️</span><div class="wc-name">Racecar Town</div></div>
-      <div class="world-card wc-lucky" onclick="loadWorld('lucky')"><span class="wc-icon">🍀</span><div class="wc-name">Catch Lucky!</div></div>
+      <div class="world-card wc-forest" onclick="loadWorld(&#39;forest&#39;)"><span class="wc-icon">🌲</span><div class="wc-name">Magic Forest</div></div>
+      <div class="world-card wc-space" onclick="loadWorld(&#39;space&#39;)"><span class="wc-icon">🚀</span><div class="wc-name">Outer Space</div></div>
+      <div class="world-card wc-dino" onclick="loadWorld(&#39;dino&#39;)"><span class="wc-icon">🦕</span><div class="wc-name">Dino Land</div></div>
+      <div class="world-card wc-cars" onclick="loadWorld(&#39;cars&#39;)"><span class="wc-icon">🏎️</span><div class="wc-name">Racecar Town</div></div>
+      <div class="world-card wc-lucky" onclick="loadWorld(&#39;lucky&#39;)"><span class="wc-icon">🍀</span><div class="wc-name">Catch Lucky!</div></div>
     </div>
   </div>
   <div id="story-text" style="display: none;"><div class="story-segment" id="current-segment"></div></div>
@@ -262,14 +263,14 @@ body.theme-lucky .modal-replay-btn  { color: #4caf50; border-color: #4caf50; }
     <div class="modal-prompt" id="modal-prompt">Which way do you fly?</div>
     <div class="choices" id="choices-container"></div>
     <!-- Voice input area -->
-    <div id="voice-area" style="text-align: center; margin-top: 1.2rem; display: block;">
+    <div id="voice-area" style="text-align: center; margin-top: 1.2rem; display: none;">
       <button id="mic-btn" onclick="startListening()" style="
         font-size:2.5rem; background:none; border:none; cursor:pointer;
         animation:bounce-icon 2s ease-in-out infinite;
         filter:drop-shadow(0 0 8px rgba(0,0,0,0.2));
         transition:transform 0.2s;
       ">🎙️</button>
-      <div id="mic-status" style="font-family:'Fredoka One',cursive;font-size:0.95rem;margin-top:0.3rem;opacity:0.7;">Say One, Two, or Three!</div>
+      <div id="mic-status" style="font-family:&#39;Fredoka One&#39;,cursive;font-size:0.95rem;margin-top:0.3rem;opacity:0.7;">Say One, Two, or Three!</div>
     </div>
     <button class="modal-replay-btn" id="modal-replay-btn" onclick="replayFromModal()">🔊 Read it again!</button>
     <button class="go-back-btn" id="go-back-btn" onclick="goBack()" disabled="">Oops, go back!</button>
@@ -423,7 +424,8 @@ function navigateTo(nodeId){
   updateProgress();
   speakText(node.text,()=>{
     if(node.ending){ node.ending.win ? showWin(node.ending) : showOops(node.ending); }
-    else { showChoices(node); }
+    else if(soundOn){ showChoices(node); }
+    // Sound off: narration skipped, user presses "Choose Now!" manually to open choices
   });
 }
 
@@ -471,7 +473,7 @@ function speakText(text,onComplete){
 function replaySegment(){
   if(!currentNode||isNarrating) return;
   const node=activeWorld[currentNode];
-  speakText(node.text,()=>{ if(!node.ending) showChoices(node); });
+  speakText(node.text,()=>{ if(!node.ending && soundOn) showChoices(node); });
 }
 
 function togglePause(){
@@ -511,7 +513,7 @@ function goBack(){
     const seg=document.getElementById('current-segment');
     seg.style.animation='none'; seg.offsetHeight; seg.style.animation='';
     seg.className='story-segment'; seg.innerHTML=node.text;
-    updateProgress(); showChoices(node);
+    updateProgress(); if(soundOn) showChoices(node);
   },350);
 }
 
@@ -672,7 +674,7 @@ function replayFromModal(){
   setVoiceMode('idle');
   synth.cancel();
   setTimeout(()=>{
-    speakText(node.text,()=>{ if(!node.ending) showChoices(node); });
+    speakText(node.text,()=>{ if(!node.ending && soundOn) showChoices(node); });
   },350);
 }
 
@@ -845,6 +847,7 @@ function showMainUI(){
 }
 if(speechSynthesis.onvoiceschanged!==undefined){ speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices(); }
 </script>
+
 
 
 </body></html>
